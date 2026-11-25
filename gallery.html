@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ABC Fitness Studio — fitness equipment, community, and training essentials.">
+<title>Gallery | ABC Fitness Studio</title>
+<style>
+:root{--abc-ink:#17221d;--abc-forest:#174b36;--abc-green:#236b49;--abc-lime:#d7e86a;--abc-cream:#fbfaf5;--abc-paper:#fff;--abc-red:#a92335;--abc-muted:#e9eee8;--abc-border:#cbd5cd;--abc-focus:#f0c94a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--abc-cream);color:var(--abc-ink);font:16px/1.65 Arial,Helvetica,sans-serif}
+a{color:var(--abc-forest)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--abc-focus);outline-offset:3px}
+.abc-skip{position:absolute;left:-9999px;top:0;background:#fff;padding:12px;z-index:10}
+.abc-skip:focus{left:12px}
+.abc-header{background:var(--abc-ink);color:#fff;padding:16px 22px}
+.abc-header-inner{max-width:1120px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.abc-brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-weight:800;font-size:1.15rem}
+.abc-logo{width:46px;height:46px;border:3px solid var(--abc-lime);border-radius:50%;display:grid;place-items:center;color:var(--abc-lime);font-weight:900}
+.abc-nav{display:flex;gap:8px;flex-wrap:wrap}
+.abc-nav a{color:#fff;text-decoration:none;font-weight:700;padding:9px 12px;border-radius:6px}
+.abc-nav a:hover,.abc-nav a[aria-current=page]{background:var(--abc-green)}
+.abc-main{max-width:1120px;margin:0 auto;padding:30px 20px}
+.abc-hero{background:#174b36;color:#fff;border-radius:16px;padding:48px 38px;display:grid;grid-template-columns:1.35fr .65fr;gap:26px;align-items:center}
+
+.abc-hero h1{font-size:clamp(2.1rem,5vw,3.7rem);line-height:1.08;margin:8px 0 16px}
+.abc-hero p{max-width:680px}
+
+.abc-button,button{display:inline-block;border:0;border-radius:7px;background:var(--abc-red);color:#fff;text-decoration:none;font:700 1rem Arial,sans-serif;padding:12px 17px;cursor:pointer}
+.abc-button-green,button.abc-button-green{background:var(--abc-green)}
+.abc-button:hover,button:hover{filter:brightness(.92)}
+.abc-section-title{color:var(--abc-forest);margin:34px 0 14px;font-size:1.65rem}
+
+
+.abc-product-art{height:132px;background:linear-gradient(135deg,#edf1e8,#dce8cf);border-radius:9px;display:grid;place-items:center;font-size:3.5rem}
+.abc-price{color:#8f1c2c;font-weight:800}
+.abc-callout{background:var(--abc-lime);border-radius:12px;padding:24px;margin:28px 0}
+.abc-two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.abc-form{background:#fff;border:1px solid var(--abc-border);border-radius:12px;padding:20px;max-width:700px}
+.abc-form label{display:block;font-weight:700;margin:12px 0 5px}
+.abc-form input,.abc-form textarea{width:100%;border:1px solid #69776d;border-radius:6px;padding:11px;font:inherit;background:#fff;color:var(--abc-ink)}
+.abc-form textarea{min-height:120px;resize:vertical}
+.abc-checkline{display:flex!important;align-items:center;gap:9px}
+.abc-checkline input{width:auto}
+.abc-inline{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.abc-inline input{flex:1;min-width:180px}
+.abc-status{min-height:1.5em;color:#175b35;font-weight:700}
+.abc-hours{width:100%;border-collapse:collapse;background:#fff}
+.abc-hours th,.abc-hours td{padding:11px;border:1px solid var(--abc-border);text-align:left}
+.abc-hours th{background:var(--abc-ink);color:#fff}
+.abc-cart{background:#fff;border:2px solid var(--abc-green);border-radius:12px;padding:20px;margin:22px 0}
+.abc-footer{background:var(--abc-ink);color:#fff;margin-top:35px;padding:30px 20px}
+.abc-footer-inner{max-width:1120px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.abc-footer a{color:var(--abc-lime)}
+.abc-small{font-size:.9rem;color:#48564d}
+.abc-footer .abc-small{color:#e1e8e2}
+@media(max-width:760px){.abc-hero{grid-template-columns:1fr;padding:30px 22px}.abc-two-col,.abc-footer-inner{grid-template-columns:1fr}.abc-header-inner{align-items:flex-start}.abc-nav{width:100%}}
+@media(max-width:480px){.abc-main{padding:20px 13px}.abc-hero h1{font-size:2.25rem}.abc-brand{font-size:1rem}.abc-nav a{padding:8px}}
+</style>
+<script>
+const abcCatalog={dumbbells:{name:"Adjustable Dumbbell Set",price:49.99},mat:{name:"Training Yoga Mat",price:24.99},bands:{name:"Resistance Band Set",price:14.99},bottle:{name:"Insulated Water Bottle",price:19.99},rope:{name:"Speed Jump Rope",price:12.99},roller:{name:"Recovery Foam Roller",price:21.99}};
+const abcCartKey="abcFitnessCart";
+function abcReadCart(){try{return JSON.parse(sessionStorage.getItem(abcCartKey)||"[]")}catch{return []}}
+function abcSaveCart(items){sessionStorage.setItem(abcCartKey,JSON.stringify(items))}
+function abcMoney(value){return Number(value).toFixed(2)}
+function abcUpdateCart(){
+ const items=abcReadCart(),count=document.getElementById("abc-cart-count"),list=document.getElementById("abc-cart-items"),total=document.getElementById("abc-cart-total");
+ if(count)count.textContent=items.reduce((sum,item)=>sum+item.qty,0);
+ if(list){list.replaceChildren();items.forEach(item=>{const li=document.createElement("li");li.textContent=`${item.name} × ${item.qty} — $${abcMoney(item.price*item.qty)}`;list.appendChild(li)})}
+ if(total)total.textContent=abcMoney(items.reduce((sum,item)=>sum+item.price*item.qty,0));
+}
+document.addEventListener("DOMContentLoaded",()=>{
+ document.querySelectorAll("[data-abc-add]").forEach(button=>button.addEventListener("click",()=>{
+  const id=button.dataset.abcAdd,product=abcCatalog[id];if(!product)return;
+  const items=abcReadCart(),existing=items.find(item=>item.id===id);
+  if(existing)existing.qty+=1;else items.push({id,...product,qty:1});
+  abcSaveCart(items);abcUpdateCart();
+  const status=document.getElementById("abc-cart-status");if(status)status.textContent=product.name+" added to your cart.";
+ }));
+ const panel=document.getElementById("abc-cart-panel"),view=document.getElementById("abc-view-cart");
+ if(view)view.addEventListener("click",()=>{panel.hidden=false;abcUpdateCart();panel.scrollIntoView({behavior:"smooth",block:"nearest"})});
+ const close=document.getElementById("abc-close-cart");if(close)close.addEventListener("click",()=>panel.hidden=true);
+ const clear=document.getElementById("abc-clear-cart");if(clear)clear.addEventListener("click",()=>{abcSaveCart([]);abcUpdateCart();document.getElementById("abc-cart-status").textContent="Your cart has been cleared."});
+ const order=document.getElementById("abc-process-order");if(order)order.addEventListener("click",()=>{
+  const status=document.getElementById("abc-cart-status"),items=abcReadCart();
+  if(!items.length){status.textContent="Your cart is empty. Add an item before processing an order.";return}
+  abcSaveCart([]);abcUpdateCart();status.textContent="Demo order processed. No payment was collected and no real order was submitted.";
+ });
+ const contact=document.getElementById("abc-contact-form");if(contact)contact.addEventListener("submit",event=>{
+  event.preventDefault();if(!contact.reportValidity())return;
+  const record={name:document.getElementById("abc-name").value.trim(),email:document.getElementById("abc-email").value.trim(),message:document.getElementById("abc-message").value.trim(),createdAt:new Date().toISOString()};
+  try{const records=JSON.parse(localStorage.getItem("abcFitnessMessages")||"[]");records.push(record);localStorage.setItem("abcFitnessMessages",JSON.stringify(records));document.getElementById("abc-contact-status").textContent="Thank you, "+record.name+". Your message was saved in this browser for this demonstration.";contact.reset()}
+  catch{document.getElementById("abc-contact-status").textContent="This browser could not save the message."}
+ });
+ document.querySelectorAll("[data-abc-subscribe]").forEach(form=>form.addEventListener("submit",event=>{
+  event.preventDefault();const email=form.querySelector("input[type=email]");
+  if(!email||!email.checkValidity())return;
+  try{const list=JSON.parse(localStorage.getItem("abcFitnessSubscribers")||"[]");if(!list.includes(email.value.trim()))list.push(email.value.trim());localStorage.setItem("abcFitnessSubscribers",JSON.stringify(list));form.querySelector("[data-abc-subscribe-status]").textContent="Thank you for subscribing! This demo saved your email in this browser.";form.reset()}
+  catch{form.querySelector("[data-abc-subscribe-status]").textContent="This browser could not save your subscription."}
+ }));
+ abcUpdateCart();
+});
+</script>
+</head>
+<body>
+<a class="abc-skip" href="#abc-main">Skip to main content</a>
+<header class="abc-header"><div class="abc-header-inner">
+<a class="abc-brand" href="index.html"><span class="abc-logo" aria-hidden="true">ABC</span><span>ABC Fitness Studio</span></a>
+<nav class="abc-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="gallery.html" aria-current="page">Gallery</a><a href="about.html">About Us</a><a href="community.html">Community</a></nav>
+</div></header>
+<main class="abc-main" id="abc-main">
+<section class="abc-hero"><div><h1>Gear up for your goals.</h1><p>Explore a selection of fitness accessories for strength, mobility, and everyday training.</p></div></section>
+<div class="abc-inline" style="justify-content:space-between;margin:24px 0"><h2 class="abc-section-title" style="margin:0">Shop the collection</h2><button id="abc-view-cart" class="abc-button-green" type="button">View Cart (<span id="abc-cart-count">0</span>)</button></div>
+<div >
+<article ><div class="abc-product-art" role="img" aria-label="Dumbbell illustration">🏋️</div><h3>Adjustable Dumbbell Set</h3><p>Versatile resistance for a range of strength exercises.</p><p class="abc-price">$49.99</p><button type="button" data-abc-add="dumbbells">Add to Cart</button></article>
+<article ><div class="abc-product-art" role="img" aria-label="Yoga mat illustration">🧘</div><h3>Training Yoga Mat</h3><p>Cushioned support for stretching, balance, and floor work.</p><p class="abc-price">$24.99</p><button type="button" data-abc-add="mat">Add to Cart</button></article>
+<article ><div class="abc-product-art" role="img" aria-label="Resistance bands illustration">〰️</div><h3>Resistance Band Set</h3><p>Portable bands for warmups and strength training.</p><p class="abc-price">$14.99</p><button type="button" data-abc-add="bands">Add to Cart</button></article>
+<article ><div class="abc-product-art" role="img" aria-label="Water bottle illustration">💧</div><h3>Insulated Water Bottle</h3><p>Reusable hydration for workouts and busy days.</p><p class="abc-price">$19.99</p><button type="button" data-abc-add="bottle">Add to Cart</button></article>
+<article ><div class="abc-product-art" role="img" aria-label="Jump rope illustration">🪢</div><h3>Speed Jump Rope</h3><p>A simple cardio tool for indoor or outdoor sessions.</p><p class="abc-price">$12.99</p><button type="button" data-abc-add="rope">Add to Cart</button></article>
+<article ><div class="abc-product-art" role="img" aria-label="Foam roller illustration">🟢</div><h3>Recovery Foam Roller</h3><p>Support post-workout recovery and mobility routines.</p><p class="abc-price">$21.99</p><button type="button" data-abc-add="roller">Add to Cart</button></article></div>
+<section id="abc-cart-panel" class="abc-cart" hidden aria-live="polite"><div class="abc-inline" style="justify-content:space-between"><h2 class="abc-section-title" style="margin:0">Your Shopping Cart</h2><button id="abc-close-cart" class="abc-button-green" type="button">Close</button></div><ul id="abc-cart-items"></ul><p><strong>Total: $<span id="abc-cart-total">0.00</span></strong></p><div class="abc-inline"><button id="abc-clear-cart" class="abc-button-green" type="button">Clear Cart</button><button id="abc-process-order" type="button">Process Order</button></div><p id="abc-cart-status" class="abc-status" role="status"></p><p class="abc-small">Demo only: no payment is collected and no real order is placed.</p></section>
+</main>
+<footer class="abc-footer"><div class="abc-footer-inner">
+<section><h2 style="color:var(--abc-lime);margin-top:0">Stay motivated</h2><p>Subscribe for studio news and fitness updates.</p>
+<form class="abc-form" data-abc-subscribe><label for="abc-subscribe-gallery">Email address</label><div class="abc-inline"><input id="abc-subscribe-gallery" type="email" required placeholder="you@example.com" autocomplete="email"><button type="submit">Subscribe</button></div><p class="abc-status" data-abc-subscribe-status role="status" aria-live="polite"></p></form>
+</section><section><h3>Explore</h3><p><a href="index.html">Home</a> · <a href="gallery.html">Gallery</a> · <a href="about.html">About Us</a> · <a href="community.html">Community</a></p><p class="abc-small">© 2026 ABC Fitness Studio. Educational demonstration website.</p></section>
+</div></footer>
+</body>
+</html>
